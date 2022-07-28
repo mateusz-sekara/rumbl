@@ -34,7 +34,7 @@ config :rumbl_web, RumblWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: RumblWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Rumbl.PubSub,
-  live_view: [signing_salt: "pOd5YXsr"],
+  live_view: [signing_salt: "pOd5YXsr"]
 
 # Configure esbuild (the version is required)
 config :esbuild,
