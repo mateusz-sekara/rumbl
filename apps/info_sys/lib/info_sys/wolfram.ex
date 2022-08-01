@@ -13,6 +13,7 @@ defmodule InfoSys.Wolfram do
   def compute(query_str, _opts) do
     query_str
     |> fetch_xml()
+    |> IO.inspect()
     |> xpath(~x"/queryresult/pod[contains(@title, 'Result') or contains(@title, 'Definition')]
                              /subpod/plaintext/text()")
     |> build_results()

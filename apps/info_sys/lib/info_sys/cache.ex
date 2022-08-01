@@ -41,7 +41,7 @@ defmodule InfoSys.Cache do
   defp new_table(name) do
     name
     |> tab_name()
-    |>  :ets.new([
+    |> :ets.new([
       :set,
       :named_table,
       :public,
