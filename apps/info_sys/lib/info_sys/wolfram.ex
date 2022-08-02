@@ -5,6 +5,7 @@ defmodule InfoSys.Wolfram do
   @behaviour InfoSys.Backend
 
   @base "http://api.wolframalpha.com/v2/query"
+  @http Application.get_env(:info_sys, :wolfram)[:http_client] || :httpc
 
   @impl true
   def name, do: "wolfram"
@@ -13,21 +14,20 @@ defmodule InfoSys.Wolfram do
   def compute(query_str, _opts) do
     query_str
     |> fetch_xml()
-    |> IO.inspect()
     |> xpath(~x"/queryresult/pod[contains(@title, 'Result') or contains(@title, 'Definition')]
                              /subpod/plaintext/text()")
     |> build_results()
   end
 
 
-  defp build_results(nil), do: nil
+  defp build_results(nil), do: []
 
   defp build_results(answer) do
     [%Result{backend: __MODULE__, score: 95, text: to_string(answer)}]
   end
 
   defp fetch_xml(query) do
-    {:ok, {_, _, body}} = :httpc.request(String.to_charlist((url(query))))
+    {:ok, {_, _, body}} = @http.request(String.to_charlist((url(query))))
     body
   end
 
