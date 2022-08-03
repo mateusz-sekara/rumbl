@@ -17,7 +17,6 @@ defmodule InfoSys do
     |> Enum.map(&async_query(&1, query, opts))
     |> Task.yield_many(timeout)
     |> Enum.map(fn {task, res} -> res || Task.shutdown(task, :brutal_kill) end)
-    |> IO.inspect()
     |> Enum.flat_map(fn
       {:ok, result} -> result
       _ -> []
